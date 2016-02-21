@@ -23,23 +23,9 @@ http://localhost:9000/q/?q=<your questions>
 
 Sample question and answer:
 http://localhost:9000/q/?q=Who is Richard Stallman?
-<START of server response>
-Category : president of the free software foundation
 
-Image
-Info :
-Born : March 16, 1953, New York City
-Nationality : American
-Other names : RMS, rms
-Alma mater : Harvard University, Massachusetts Institute of Technology
-Occupation : President of the Free Software Foundation
-Known for : Free software movement, GNU, Emacs, GCC
-Awards : MacArthur Fellowship, EFF Pioneer Award,... see Honors and awards
-Description :
-Richard Matthew Stallman, often known by his initials, rms, is a software freedom activist and computer programmer. He campaigns for software to be distributed in a manner such that its users receive the freedoms to use, study, distribute and modify that software. Software that ensures these freedoms is termed free software. Stallman launched the GNU Project, founded the Free Software Foundation, developed the GNU Compiler Collection and GNU Emacs, and wrote the GNU General Public License.
+![Alt text](./data/sample_response_screenshot.png?raw=true "Response")
 
-Data source : Wikipedia 
-<END of server response>
 
 This application currenlty presents only the API and does not have any UI as it is meant to be integrated into a wide variety of applications such as a chat bot in whatsapp, XMPP or IRC networks, as a standalone mobile/desktop application etc.
 
