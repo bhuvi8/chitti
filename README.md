@@ -31,3 +31,6 @@ This application currenlty presents only the API and does not have any UI as it 
 
 This software is just a proof of concept and is in early development stage.
 You are welcome to fork this code and develop it.
+
+### License terms ###
+* This code is licensed under **GNU AGPLv3**. See included License file for more details.
