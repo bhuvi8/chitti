@@ -8,6 +8,8 @@ mongodb(>=2.4)
 Additional python libraries required:
 cherrypy
 nltk
+pymongo
+bs4
 
 To start the server, run
 python qa_server.py

@@ -19,7 +19,7 @@ class DescLookup:
         if soi != None:
             soi = soi.get('content')
             if soi != None:
-                res = re.split(":|usage", soi)
+                res = re.split(":|—", soi) #changed from 'usage' to '—' as of 03/2018
                 del res[0]
                 del res[-1]
                 res = ' : '.join(res) 
@@ -38,26 +38,27 @@ class DescLookup:
         return res
     def parse_json(self, string):
         """parse json and get relevant data from text
+           removed[data] as we directly get it from json qry 03/2018
         """
         res = ''
         res_dict = {}
         parsed_data = json.loads(string)
-        abs_txt = parsed_data['data']['AbstractText']
+        abs_txt = parsed_data['AbstractText']
         if not abs_txt: return ''
         info = ''
-        if isinstance(parsed_data['data']['Infobox'], dict):
-            for key in parsed_data['data']['Infobox'].keys():
+        if isinstance(parsed_data['Infobox'], dict):
+            for key in parsed_data['Infobox'].keys():
                 if key != 'content': continue
-                for l in parsed_data['data']['Infobox'][key]:
+                for l in parsed_data['Infobox'][key]:
                     #print(l)
                     if l['data_type'] != 'string': continue
                     info += l['label'] + ' : '
                     info += l['value'] + '\r\n<BR>'
                     res_dict[l['label']] = l['value']
-        data_src_url = parsed_data['data']['AbstractURL']
-        data_src_name = parsed_data['data']['AbstractSource']
-        entity = parsed_data['data']['Entity']
-        img_url = parsed_data['data']['Image']
+        data_src_url = parsed_data['AbstractURL']
+        data_src_name = parsed_data['AbstractSource']
+        entity = parsed_data['Entity']
+        img_url = parsed_data['Image']
         if entity:
             res += 'Category : ' + entity + '\r\n<BR><BR>'
             res_dict['Entity'] = entity
@@ -76,23 +77,26 @@ class DescLookup:
         #res += 'To contribute vist <a href="http://duckduckhack.com/">duckduckhack.com</a> \r\n<BR>'
         logger.debug(res_dict)
         return res
-    def get_data(self, string, q_class='about'):
+    def get_data(self, string, q_class='json'): #changed from 'about' to 'json' to directly fetch json
         res = ''
+        logger.info("q_class_FC"+q_class)
         if q_class == 'def':
             url = 'http://www.merriam-webster.com/dictionary/'+string
             url = re.sub(' ', '%20', url)
         else:
-            url = 'https://duckduckgo.com/?q='+string+'&ia='+q_class
+            url = 'https://duckduckgo.com/?q='+string+'&o='+q_class
+            url = re.sub(' ', '%20', url)
         logger.info('URL: '+url)
         try:
-            data = urllib.request.urlopen(url)
+            data = urllib.request.urlopen(url).read()
         except:
             logger.exception("Error: %s could not be opened" %url)
             return res
-        soup = BeautifulSoup(data.read(),"lxml")
         if q_class == 'def':
+            soup = BeautifulSoup(data,"html5lib")
             res = self.gettextdefine(soup)
         else:
-            res = self.gettextonly(soup)
+            #res = self.gettextonly(soup) #not required as we directly get json
+            res = self.parse_json(data.decode('utf-8'))
         return res
 
