@@ -48,7 +48,9 @@ class SearchIndexDB(MongoClient):
         sent_coll = self.db[self.sent_collection]
         result_list = []
         #requires text index enabled for sent [only on mongodb >= 2.4]
-        sent_list = self.db.command("text","sent_collection",search=search_term)['results']
+        #text command deprecated from mongodb >= 2.6 ,using $text query instead
+        #ref: https://gist.github.com/cpatrick/5719077
+        sent_list = sent_coll.find({"$text" : {"$search":search_term }}) #['results']
         
         #for sent_doc in sent_list:
             #del sent_doc['_id']

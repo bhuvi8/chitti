@@ -14,13 +14,13 @@ class DescLookup:
     # Extract the text definition from HTML page
     def gettextdefine(self, soup):
         res = ''
-        attr = {'name':'description'}
+        attr = {'property':'og:description'}
         soi = soup.find('meta', attr)
         if soi != None:
             soi = soi.get('content')
             if soi != None:
-                res = re.split(":|—", soi) #changed from 'usage' to '—' as of 03/2018
-                del res[0]
+                res = re.split("…", soi)
+                #del res[0]
                 del res[-1]
                 res = ' : '.join(res) 
 

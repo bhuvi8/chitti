@@ -7,6 +7,9 @@ from db_api.db_chat import ChatDB
 from utils.language_processor import *
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
+
 
 class StmtClassify:
     def __init__(self):
@@ -28,6 +31,7 @@ class StmtClassify:
                      'nAnswer' : '_nanswer',
                      'Continuer' : '_continuer' }
         self.classifier_obj = 'data/stmnt_classifier.pickle'
+        #self.classifier_obj = 'data/q_fine_classifier.pickle'
         self.classifier = pickle.load(open(self.classifier_obj, 'rb'))
         
     def classify(self,q_obj):
